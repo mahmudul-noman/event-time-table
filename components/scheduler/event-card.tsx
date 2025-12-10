@@ -23,14 +23,14 @@ export function EventCard({ event, top, height, width, onClick }: EventCardProps
   return (
     <div
       className={cn(
-        "absolute left-0 right-0 mx-1 rounded-md px-2 py-1 overflow-hidden cursor-pointer",
+        "absolute left-0 right-0 rounded-xs px-2 py-1 overflow-hidden cursor-pointer",
         "shadow-sm hover:shadow-md transition-shadow",
         "border border-white/20",
       )}
       style={{
         top,
         height: Math.max(height, 20),
-        width: width - 8,
+        width: width,
         backgroundColor: event.color || "#3b82f6",
       }}
       onClick={() => onClick?.(event)}
