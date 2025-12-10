@@ -44,8 +44,8 @@ export function DayTabs({ days, selectedDate, onSelectDate }: DayTabsProps) {
 
       <div
         ref={scrollRef}
-        className="flex overflow-x-auto scrollbar-hide px-10"
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        className="flex overflow-x-auto px-10"
+        // className="flex overflow-x-auto scrollbar-hide px-10"
       >
         {days.map((day) => {
           const dateStr = formatDate(day)

@@ -9,6 +9,11 @@ const defaultVenues: Venue[] = [
   { id: "venue-3", name: "Venue 3" },
   { id: "venue-4", name: "Venue 4" },
   { id: "venue-5", name: "Venue 5" },
+  { id: "venue-6", name: "Venue 6" },
+  { id: "venue-7", name: "Venue 7" },
+  { id: "venue-8", name: "Venue 8" },
+  { id: "venue-9", name: "Venue 9" },
+  { id: "venue-10", name: "Venue 10" },
 ]
 
 // Sample events for demonstration
@@ -116,7 +121,7 @@ export function getWeekDays(baseDate: Date = new Date()): Date[] {
   const diff = dayOfWeek === 0 ? -6 : 1 - dayOfWeek // Adjust to Monday
   startOfWeek.setDate(startOfWeek.getDate() + diff)
 
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < 14; i++) {
     const day = new Date(startOfWeek)
     day.setDate(startOfWeek.getDate() + i)
     days.push(day)
