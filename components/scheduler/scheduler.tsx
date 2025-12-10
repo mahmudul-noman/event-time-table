@@ -76,7 +76,7 @@ export function Scheduler() {
     <div className="flex h-screen flex-col bg-background">
       {/* Header with title and add event button */}
       <div className="flex items-center justify-between px-4 py-2 border-b border-border">
-        <h1 className="text-xl font-semibold">Event Scheduler</h1>
+        <h1 className="text-xl font-semibold">Event Time Table</h1>
         <MuiButton
           onClick={handleAddEvent}
           variant="contained"
