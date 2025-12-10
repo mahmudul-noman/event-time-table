@@ -31,6 +31,9 @@ interface EventDialogProps {
 
 const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#06b6d4", "#84cc16"]
 
+/**
+ * Generate time options in 15-minute intervals for a 24-hour period
+ */
 function generateTimeOptions(): { value: string; label: string }[] {
   const options: { value: string; label: string }[] = []
   for (let hour = 0; hour < 24; hour++) {
@@ -44,6 +47,12 @@ function generateTimeOptions(): { value: string; label: string }[] {
 
 const TIME_OPTIONS = generateTimeOptions()
 
+/**
+ * EventDialog Component
+ * 
+ * Modal dialog for creating and editing calendar events.
+ * Supports multi-venue selection, time range selection, and color customization.
+ */
 export function EventDialog({ open, onOpenChange, event, venues, selectedDate, onSave, onDelete }: EventDialogProps) {
   const [title, setTitle] = useState("")
   const [venueIds, setVenueIds] = useState<string[]>([])
@@ -51,6 +60,7 @@ export function EventDialog({ open, onOpenChange, event, venues, selectedDate, o
   const [endTime, setEndTime] = useState("10:00")
   const [color, setColor] = useState(COLORS[0])
 
+  // Initialize form fields when dialog opens or event changes
   useEffect(() => {
     if (event) {
       setTitle(event.title)
@@ -102,6 +112,7 @@ export function EventDialog({ open, onOpenChange, event, venues, selectedDate, o
       <DialogTitle>{event ? "Edit Event" : "New Event"}</DialogTitle>
       <DialogContent>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5, pt: 1 }}>
+          {/* Event title input */}
           <TextField
             autoFocus
             id="title"
@@ -114,6 +125,7 @@ export function EventDialog({ open, onOpenChange, event, venues, selectedDate, o
             placeholder="Event title"
           />
 
+          {/* Multi-venue selector */}
           <FormControl fullWidth>
             <InputLabel id="venue-label">Venues</InputLabel>
             <MuiSelect
@@ -141,6 +153,7 @@ export function EventDialog({ open, onOpenChange, event, venues, selectedDate, o
             </MuiSelect>
           </FormControl>
 
+          {/* Start and end time selectors */}
           <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
             <FormControl fullWidth>
               <InputLabel id="start-time-label">Start Time</InputLabel>
@@ -179,6 +192,7 @@ export function EventDialog({ open, onOpenChange, event, venues, selectedDate, o
             </FormControl>
           </Box>
 
+          {/* Color picker */}
           <Box>
             <Typography variant="body2" sx={{ mb: 1, color: "text.secondary" }}>
               Color

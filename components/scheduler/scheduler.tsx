@@ -17,6 +17,13 @@ const COLUMN_WIDTH = 160
 const SLOT_HEIGHT = 40
 const TIME_COLUMN_WIDTH = 70
 
+/**
+ * Scheduler Component
+ * 
+ * Main event scheduler layout.
+ * Includes day navigation tabs, venue headers, time columns, event grid,
+ * and dialogs for creating/editing events and venues.
+ */
 export function Scheduler() {
   const { events, venues, isLoaded, addEvent, updateEvent, deleteEvent, addVenue, deleteVenue } = useScheduler()
   const [selectedDate, setSelectedDate] = useState(() => formatDate(new Date()))
@@ -28,19 +35,21 @@ export function Scheduler() {
   const venueHeaderRef = useRef<HTMLDivElement>(null)
   const weekDays = getWeekDays()
   const timeSlots = generateTimeSlots(9, 18)
-
   const totalWidth = (venues.length + 1) * COLUMN_WIDTH
 
+  // Open event dialog for editing
   const handleEventClick = (event: Event) => {
     setSelectedEvent(event)
     setDialogOpen(true)
   }
 
+  // Open event dialog for adding new event
   const handleAddEvent = () => {
     setSelectedEvent(null)
     setDialogOpen(true)
   }
 
+  // Save or update event
   const handleSaveEvent = (eventData: Omit<Event, "id"> | Event) => {
     if ("id" in eventData) {
       updateEvent(eventData.id, eventData)
@@ -49,10 +58,12 @@ export function Scheduler() {
     }
   }
 
+  // Add new venue
   const handleAddVenue = (name: string) => {
     addVenue(name)
   }
 
+  // Show loading state until scheduler data is ready
   if (!isLoaded) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -63,7 +74,7 @@ export function Scheduler() {
 
   return (
     <div className="flex h-screen flex-col bg-background">
-      {/* Header with day tabs */}
+      {/* Header with title and add event button */}
       <div className="flex items-center justify-between px-4 py-2 border-b border-border">
         <h1 className="text-xl font-semibold">Event Scheduler</h1>
         <MuiButton
@@ -80,7 +91,7 @@ export function Scheduler() {
       {/* Day tabs - horizontally scrollable */}
       <DayTabs days={weekDays} selectedDate={selectedDate} onSelectDate={setSelectedDate} />
 
-      {/* Main content area */}
+      {/* Main content area: time column + scrollable event grid */}
       <div className="flex flex-1 overflow-hidden">
         {/* Fixed time column */}
         <div className="flex-shrink-0 border-r border-border bg-card" style={{ width: TIME_COLUMN_WIDTH }}>
@@ -98,7 +109,7 @@ export function Scheduler() {
           </div>
         </div>
 
-        {/* Scrollable area (venue headers + events) */}
+        {/* Scrollable area for venue headers and events */}
         <div className="flex-1 overflow-hidden">
           {/* Sticky venue header */}
           <div className="overflow-x-hidden overflow-y-hidden h-[45px]" style={{ scrollbarWidth: "none" }}>
@@ -119,12 +130,14 @@ export function Scheduler() {
             onScroll={() => {
               const el = scrollContainerRef.current
               if (el) {
+                // Sync time column scroll
                 const timeCol = el.parentElement?.previousElementSibling?.querySelector(
                   "div:last-child > div",
                 ) as HTMLElement
                 if (timeCol) {
                   timeCol.style.transform = `translateY(-${el.scrollTop}px)`
                 }
+                // Sync venue header scroll
                 if (venueHeaderRef.current) {
                   venueHeaderRef.current.style.transform = `translateX(-${el.scrollLeft}px)`
                 }
@@ -146,7 +159,7 @@ export function Scheduler() {
         </div>
       </div>
 
-      {/* Event dialog */}
+      {/* Event dialog for adding/editing events */}
       <EventDialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
@@ -157,6 +170,7 @@ export function Scheduler() {
         onDelete={deleteEvent}
       />
 
+      {/* Venue dialog for adding new venues */}
       <VenueDialog open={venueDialogOpen} onOpenChange={setVenueDialogOpen} onSave={handleAddVenue} />
     </div>
   )

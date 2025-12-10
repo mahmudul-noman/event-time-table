@@ -14,9 +14,16 @@ interface VenueDialogProps {
   onSave: (name: string) => void
 }
 
+/**
+ * VenueDialog Component
+ * 
+ * Modal dialog for adding a new venue.
+ * Provides input for venue name and handles save/cancel actions.
+ */
 export function VenueDialog({ open, onOpenChange, onSave }: VenueDialogProps) {
   const [name, setName] = useState("")
 
+  // Save venue if input is valid
   const handleSave = () => {
     if (name.trim()) {
       onSave(name.trim())
@@ -25,6 +32,7 @@ export function VenueDialog({ open, onOpenChange, onSave }: VenueDialogProps) {
     }
   }
 
+  // Close dialog and reset input
   const handleClose = () => {
     setName("")
     onOpenChange(false)
@@ -34,6 +42,7 @@ export function VenueDialog({ open, onOpenChange, onSave }: VenueDialogProps) {
     <MuiDialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
       <DialogTitle>Add New Venue</DialogTitle>
       <DialogContent>
+        {/* Input field for venue name */}
         <TextField
           autoFocus
           margin="dense"
@@ -52,9 +61,11 @@ export function VenueDialog({ open, onOpenChange, onSave }: VenueDialogProps) {
         />
       </DialogContent>
       <DialogActions sx={{ px: 3, pb: 2 }}>
+        {/* Cancel button */}
         <MuiButton onClick={handleClose} variant="outlined" color="inherit">
           Cancel
         </MuiButton>
+        {/* Add venue button */}
         <MuiButton onClick={handleSave} variant="contained" disabled={!name.trim()}>
           Add Venue
         </MuiButton>
