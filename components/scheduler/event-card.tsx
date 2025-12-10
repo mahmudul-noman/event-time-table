@@ -1,0 +1,39 @@
+"use client"
+
+import type { Event } from "@/types/scheduler"
+import { cn } from "@/lib/utils"
+import { formatTimeTo12Hour } from "@/lib/scheduler-utils"
+
+interface EventCardProps {
+  event: Event
+  top: number
+  height: number
+  width: number
+  onClick?: (event: Event) => void
+}
+
+export function EventCard({ event, top, height, width, onClick }: EventCardProps) {
+  return (
+    <div
+      className={cn(
+        "absolute left-0 right-0 mx-1 rounded-md px-2 py-1 overflow-hidden cursor-pointer",
+        "shadow-sm hover:shadow-md transition-shadow",
+        "border border-white/20",
+      )}
+      style={{
+        top,
+        height: Math.max(height, 20),
+        width: width - 8,
+        backgroundColor: event.color || "#3b82f6",
+      }}
+      onClick={() => onClick?.(event)}
+    >
+      <div className="text-white text-xs font-medium truncate">{event.title}</div>
+      {height > 40 && (
+        <div className="text-white/80 text-[10px] truncate">
+          {formatTimeTo12Hour(event.startTime)} - {formatTimeTo12Hour(event.endTime)}
+        </div>
+      )}
+    </div>
+  )
+}
